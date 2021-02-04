@@ -1,0 +1,36 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: lagou-service-email
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/popo706/cloud-config-repo.git #配置git服务地址
+          username: xxxx.com #配置git用户名
+          password: xxxxxx #配置git密码
+          search-paths:
+            - cloud-config-repo
+      label: master
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    properties.mail.smtp.ssl.enable: true
+    username: xxxxx@163.com
+    password: xxxxx
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+eureka:
+  client:
+    service-url:
+      defaultZone: http://CloudEurekaServerA:8761/eureka,http://CloudEurekaServerB:8762/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@

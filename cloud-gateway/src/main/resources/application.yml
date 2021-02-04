@@ -1,0 +1,31 @@
+server:
+  port: 9002
+eureka:
+  client:
+    service-url:
+      defaultZone: http://CloudEurekaServerA:8761/eureka,http://CloudEurekaServerB:8762/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: service-user
+          uri: lb://lagou-service-user
+          predicates:
+            - Path=/user/**
+        - id: service-code
+          uri: lb://lagou-service-code
+          predicates:
+            - Path=/code/**
+        - id: service-email
+          uri: lb://lagou-service-email
+          predicates:
+            - Path=/email/**
+ip:
+  limit:
+    timeInMilliseconds: 60000
+    maxRegisterTimes: 10

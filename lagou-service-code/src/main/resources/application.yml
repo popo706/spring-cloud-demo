@@ -1,0 +1,55 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: lagou-service-code
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud-code?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    username: root
+    password: kyeepass
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database: mysql
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/popo706/cloud-config-repo.git #配置git服务地址
+          username: xxxx.com #配置git用户名
+          password: xxxxxx #配置git密码
+          search-paths:
+            - cloud-config-repo
+      label: master
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+eureka:
+  client:
+    service-url:
+      defaultZone: http://CloudEurekaServerA:8761/eureka,http://CloudEurekaServerB:8762/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+lagou-service-email:
+  ribbon:
+    #请求连接超时时间
+    ConnectTimeout: 2000
+    #请求处理超时时间
+    ##########################################Feign超时时长设置
+    ReadTimeout: 5000
+    #对所有操作都进行重试
+    OkToRetryOnAllOperations: true
+    ####根据如上配置，当访问到故障请求的时候，它会再尝试访问一次当前实例（次数由MaxAutoRetries配置），
+    ####如果不行，就换一个实例进行访问，如果还不行，再换一次实例访问（更换次数由MaxAutoRetriesNextServer配置），
+    ####如果依然不行，返回失败信息。
+    MaxAutoRetries: 0 #对当前选中实例重试次数，不包括第一次调用
+    MaxAutoRetriesNextServer: 0 #切换实例的重试次数
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule #负载策略调整
