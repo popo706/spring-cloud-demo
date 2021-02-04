@@ -6,7 +6,7 @@ spring-cloud-demo 是一个基于Spring Cloud 框架的登陆注册demo项目.
 以注册、登录为主线，串串联起验证码⽣生成及校验、邮件发送、IP防暴暴刷、⽤用户统⼀一认证等功能。实现需 基于Spring Cloud 微服务架构，技术涉及Nginx、Eureka、Feign(Ribbon、Hystrix)、Gateway、 Config+Bus等。
 
 ### 架构图
-![Image text](https://raw.githubusercontent.com/hongmaju/light7Local/master/img/productShow/20170518152848.png)
+![Image text](https://github.com/popo706/spring-cloud-demo/blob/main/source/%E6%9E%B6%E6%9E%84%E5%9B%BE.png)
 
 ### 注册
 
